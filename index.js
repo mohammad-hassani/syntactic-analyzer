@@ -114,7 +114,7 @@ $(document).ready(function(){
         let top = hed.pop();
         console.log(top);
         hed.push(top);
-        // console.log(hed);
+        console.log(hed);
         // $.each(top, function(i, v) {
         //     console.log("parent: " + parent);
         //     console.log("name: " + v.name);
@@ -137,6 +137,22 @@ $(document).ready(function(){
             
             // console.log(hed);
         }
+        if (top.name === "i") {
+            hed.pop();
+            hed.pop();
+            hed.pop();
+            hed.pop();
+        }
+        if (top.name === "+") {
+            hed.pop();
+        }
+        if (top.name === "@") {
+            hed.pop();
+            hed.pop();
+            console.log("sdhdiuhs");
+            console.log(hed);
+        }
+        chartdata = hed;
     }
 
 
@@ -182,9 +198,10 @@ $(document).ready(function(){
                     name: "X",
                     children: []
                 },{
-                    name: "+",
-                },{
                     name: "T",
+                    children: []
+                },{
+                    name: "+",
                     children: []
                 }]);
                 // xbool = true;
@@ -192,6 +209,20 @@ $(document).ready(function(){
             }
             else{
                 // stack.push(X[1][0]); // push null
+                // tree("X", [{
+                //     name: "X",
+                //     children: []
+                // },{
+                //     name: "T",
+                //     children: []
+                // },{
+                //     name: "+",
+                //     children: []
+                // }]);
+                tree("X", [{
+                    name: "@",
+                    children: []
+                }]);
                 return temp;
             }
         }
@@ -225,10 +256,15 @@ $(document).ready(function(){
                     name: "*",
                 }]);
                 // ybool = true;
+                stack.pop()
                 return "*";
             }
             else{
                 // stack.push(Y[1][0]); // push null
+                tree("Y", [{
+                    name: "@",
+                    children: []
+                }]);
                 return temp;
             }
         }
@@ -252,8 +288,10 @@ $(document).ready(function(){
             else if(head === "i"){
                 stack.push(F[1][0]); // push i
                 // add to chartdata like data
-                tree("i", [{
+                console.log("i");
+                tree("F", [{
                     name: "i",
+                    children: []
                 }]);
 
                 return "i";
@@ -314,9 +352,9 @@ $(document).ready(function(){
                 break;
             }
             if(element === temp) {
-                // console.log("befor" + stack);
+                console.log("befor" + stack);
                 stack.pop();
-                // console.log("after" + stack);
+                console.log("after" + stack);
                 let p = document.createElement("p");
                 p.innerHTML = temp;
                 document.getElementById("div").appendChild(p);
