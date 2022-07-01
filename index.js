@@ -68,23 +68,23 @@ $(document).ready(function(){
     let parent = chartdata
     function searchChild(val , arr, parent) {
         $.each(parent, function(i, v) {
-            console.log("pname" + v.name);
-            // console.log("val" + val);
+            // // console.log("pname" + v.name);
+            // // console.log("val" + val);
             if (v.name == val) {
                 for (let j = 0; j < arr.length; j++) {
-                    console.log("......................" + arr[j].name);
+                    // // console.log("......................" + arr[j].name);
                         v.children.push(arr[j]);
                 }
             }
-            // console.log("=============>" + v.name);
-            // console.log("======v=======>" + v);
-            // console.log("======v.children=======>" + v.children);
+            // // console.log("=============>" + v.name);
+            // // console.log("======v=======>" + v);
+            // // console.log("======v.children=======>" + v.children);
             // if (parent[i].children) {
-            //     // console.log('pchild: exist');
+            //     // // console.log('pchild: exist');
             //     if (parent[i].children.length > 0) {
-            //         // console.log('pchild: exist ' + parent[i].children.length);
+            //         // // console.log('pchild: exist ' + parent[i].children.length);
             //         for (let j = 0; j < parent[i].children.length; j++) {
-            //             // console.log('pchild: exist ' + parent[i].children[j].name);
+            //             // // console.log('pchild: exist ' + parent[i].children[j].name);
             //             searchChild(val, arr, parent[i].children[j]);
             //         }
             //     }
@@ -94,10 +94,53 @@ $(document).ready(function(){
         $.each(parent, function(i, v) {
             $.each(v.children, function(j, q) {
                 searchChild(val, arr, q);
-                console.log("===========jq===============>" + q);
+                // // console.log("===========jq===============>" + q);
             })
         });
     }
+
+
+
+
+    let hed = []
+    function tree(parent, child) {
+        // console.log(hed);
+        // read top of the hed stack
+        if(hed.length === 0)
+        {
+            hed = chartdata
+            // console.log(hed);
+        }
+        let top = hed.pop();
+        console.log(top);
+        hed.push(top);
+        // console.log(hed);
+        // $.each(top, function(i, v) {
+        //     console.log("parent: " + parent);
+        //     console.log("name: " + v.name);
+        //     console.log(v);
+        //     if (v.name == parent) {
+        //         $.each(child, function(j, q) {
+        //             v.children.push(q);
+        //         })
+        //         // add child to hed array
+        //         hed.push(child);
+        //         console.log(hed);
+        //     }
+        // });
+        if (top.name == parent) {
+            $.each(child, function(j, q) {
+                top.children.push(q);
+                hed.push(child[j]);
+            })
+            // add child to hed array
+            
+            // console.log(hed);
+        }
+    }
+
+
+
 
     stack.push("$");
     stack.push("E");
@@ -117,13 +160,15 @@ $(document).ready(function(){
             stack.push(E[0][1]); // push X
             stack.push(E[0][0]); // push T
             // add to chartdata like data
-            searchChild("E", [{
+            tree("E", [{
                 name: "X",
                 children: []
             },{
                 name: "T",
                 children: []
-            }], chartdata);
+            }]);
+            // tree("E", ["X","T"]);
+
 
             return "T";
         }
@@ -133,7 +178,7 @@ $(document).ready(function(){
                 stack.push(X[0][1]); // push T
                 stack.push(X[0][0]); // push +
                 // add to chartdata like data
-                searchChild("X", [{
+                tree("X", [{
                     name: "X",
                     children: []
                 },{
@@ -141,7 +186,7 @@ $(document).ready(function(){
                 },{
                     name: "T",
                     children: []
-                }], chartdata);
+                }]);
                 // xbool = true;
                 return "+";
             }
@@ -154,13 +199,13 @@ $(document).ready(function(){
             stack.push(T[0][1]); // push Y
             stack.push(T[0][0]); // push F
             // find all child with name T and add to it
-            searchChild("T", [{
+            tree("T", [{
                 name: "Y",
                 children: []
             },{
                 name: "F",
                 children: []
-            }], chartdata);
+            }]);
 
             return "F";
         }
@@ -170,7 +215,7 @@ $(document).ready(function(){
                 stack.push(Y[0][1]); // push F
                 stack.push(Y[0][0]); // push *
                 // add to chartdata like data
-                searchChild("Y", [{
+                tree("Y", [{
                     name: "Y",
                     children: []
                 },{
@@ -178,7 +223,7 @@ $(document).ready(function(){
                     children: []
                 },{
                     name: "*",
-                }], chartdata);
+                }]);
                 // ybool = true;
                 return "*";
             }
@@ -193,23 +238,23 @@ $(document).ready(function(){
                 stack.push(F[0][1]); // push E
                 stack.push(F[0][0]); // push (
                 // add to chartdata like data
-                searchChild("F", [{
+                tree("F", [{
                     name: "(",
                 },{
                     name: "E",
                     children: []
                 },{
                     name: ")",
-                }], chartdata);
+                }]);
 
                 return "(";
             }
             else if(head === "i"){
                 stack.push(F[1][0]); // push i
                 // add to chartdata like data
-                searchChild("F", [{
+                tree("i", [{
                     name: "i",
-                }], chartdata);
+                }]);
 
                 return "i";
             }
@@ -239,17 +284,17 @@ $(document).ready(function(){
 
         // console.log("stack: " + stack);
         // console.log("arr: " + arr);
+        let temp = '';
         for (let x = 0; x < arr.length; x++) {
             const element = arr[x];
             head = arr[x];
             
-            let temp = '';
             while(element !== temp)
             {
                 if(temp !== "wrong") {
                     // console.log("stack: " + stack);
                     // console.log("element: " + element);
-                    // console.log("temp: " + temp);
+                    
                     temp = pushStack();
                 }
                 else{
@@ -272,10 +317,11 @@ $(document).ready(function(){
                 // console.log("befor" + stack);
                 stack.pop();
                 // console.log("after" + stack);
-                // temp = pushStack();
                 let p = document.createElement("p");
                 p.innerHTML = temp;
                 document.getElementById("div").appendChild(p);
+                // console.log("temp: " + temp);
+                temp = pushStack();
             }
         }
         // empty stack
@@ -288,6 +334,7 @@ $(document).ready(function(){
     $('#sub').click(function(){
         
         testString()
+        // tree()
         cha();
 
     });
