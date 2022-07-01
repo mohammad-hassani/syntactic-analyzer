@@ -143,14 +143,16 @@ $(document).ready(function(){
             hed.pop();
             hed.pop();
         }
+        // if (top.name === "*") {
+        //     hed.pop();
+        //     hed.pop();
+        // }
         if (top.name === "+") {
             hed.pop();
         }
         if (top.name === "@") {
             hed.pop();
             hed.pop();
-            console.log("sdhdiuhs");
-            console.log(hed);
         }
         chartdata = hed;
     }
@@ -202,7 +204,6 @@ $(document).ready(function(){
                     children: []
                 },{
                     name: "+",
-                    children: []
                 }]);
                 // xbool = true;
                 return "+";
@@ -221,7 +222,6 @@ $(document).ready(function(){
                 // }]);
                 tree("X", [{
                     name: "@",
-                    children: []
                 }]);
                 return temp;
             }
@@ -256,14 +256,12 @@ $(document).ready(function(){
                     name: "*",
                 }]);
                 // ybool = true;
-                stack.pop()
                 return "*";
             }
             else{
                 // stack.push(Y[1][0]); // push null
                 tree("Y", [{
                     name: "@",
-                    children: []
                 }]);
                 return temp;
             }
@@ -288,10 +286,8 @@ $(document).ready(function(){
             else if(head === "i"){
                 stack.push(F[1][0]); // push i
                 // add to chartdata like data
-                console.log("i");
                 tree("F", [{
                     name: "i",
-                    children: []
                 }]);
 
                 return "i";
@@ -320,26 +316,46 @@ $(document).ready(function(){
         head = arr[0];
 
 
-        // console.log("stack: " + stack);
-        // console.log("arr: " + arr);
+        console.log("stack: " + stack);
+        console.log("arr: " + arr);
         let temp = '';
         for (let x = 0; x < arr.length; x++) {
             const element = arr[x];
             head = arr[x];
-            
+
             while(element !== temp)
             {
                 if(temp !== "wrong") {
-                    // console.log("stack: " + stack);
-                    // console.log("element: " + element);
-                    
+                    console.log("stack: " + stack);
+                    console.log("element: " + element);
+                    console.log("temp: " + temp);
                     temp = pushStack();
                 }
                 else{
-                    // console.log("wrong");
+                    console.log("wrong");
                     break;
                 }
-            } 
+            }
+            // for (let index = 0; index < 100; index++) {
+            //     console.log("index: " + index);
+            //     if(element !== temp){
+            //         console.log("stack: " + stack);
+            //         console.log("element: " + element);
+            //         console.log("temp: " + temp);
+            //         temp = pushStack();
+            //         // create p and appent to div with id div
+            //     }
+            //     else{
+            //         console.log("befor" + stack);
+            //         stack.pop();
+            //         console.log("after" + stack);
+            //         // temp = pushStack();
+            //         let p = document.createElement("p");
+            //         p.innerHTML = temp;
+            //         document.getElementById("div").appendChild(p);
+            //         index = 100;
+            //     }
+            // }  
             if(temp === "wrong") {
                 let p = document.createElement("p");
                 p.innerHTML = temp;
@@ -355,15 +371,15 @@ $(document).ready(function(){
                 console.log("befor" + stack);
                 stack.pop();
                 console.log("after" + stack);
+                // temp = pushStack();
                 let p = document.createElement("p");
-                p.innerHTML = temp;
+                p.innerHTML = temp + " = stack is: " + stack;
                 document.getElementById("div").appendChild(p);
-                // console.log("temp: " + temp);
-                temp = pushStack();
             }
         }
         // empty stack
         while(stack.length > 0){
+            temp = pushStack();
             stack.pop();
         }
 
